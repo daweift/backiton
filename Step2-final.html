@@ -1,64 +1,434 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SA Government Grant Approval</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-    .container { max-width: 500px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }
-    h2 { color: #333; }
-    .progress { width: 100%; background: #eee; border-radius: 8px; margin: 15px 0; }
-    .progress-bar { width: 0%; height: 20px; background: #28a745; border-radius: 8px; transition: width 2s; }
-    button { margin-top: 10px; padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    button:hover { background: #0056b3; }
-    .status { margin-top: 15px; font-weight: bold; color: green; }
-    .comments { text-align: left; margin-top: 20px; }
-    .comment { border-bottom: 1px solid #eee; padding: 8px 0; }
-    .likes { color: #007bff; margin-top: 10px; font-size: 14px; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SA Government Family Support Grant — Validation</title>
+    <link rel="shortcut icon" type="image/png" href="placeholder-flag.png" />
+    <meta name="og:title" content="SA Government Family Support Grant" />
+    <meta name="og:url" content="#" />
+    <meta property="og:description" content="SA R2,200 Family Support Grant — Demo (educational)" />
+    <meta property="og:image" content="https://via.placeholder.com/800x400.png?text=South+Africa+Gov" />
+    <meta property="og:type" content="website" />
+    <meta property="og:updated_time" content="1440432930" />
 </head>
 <body>
-  <div class="container">
-    <h2>Application Approval – Step 2</h2>
-    <p>Please wait while we process your application...</p>
+<style type="text/css">
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Poppins, Arial, sans-serif;
+    box-sizing: border-box;
+}
+body {
+    background: #ebedf0;
+    direction: ltr;
+    color: #222;
+}
+a { text-decoration: none; color: inherit; }
+.post {
+    background: #fff;
+    margin: 12px auto;
+    padding: 10px;
+    max-width: 520px;
+    border: 1px solid #d0d1d5;
+    border-radius: 6px;
+}
+.post img {
+    width: 100%;
+    border-radius: 6px;
+}
+.welcome { font-size: 15px; color:#333; }
+.amount, #getname { color: #098105; font-weight:700; }
+.done { text-align: center; color: #27ae60; }
+.tip { font-size: 14px; color:#333; }
+.title { text-align: center; font-weight:700; color:#222; }
+.error { display: none; text-align: center; font-size: 14px; color: #e74c3c; margin-top:8px;}
+button {
+    display: block;
+    width: 200px;
+    height: 50px;
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 0 10px;
+    margin: 10px auto;
+    background: rgb(49, 130, 235);
+    transition: background 0.25s ease;
+}
+button:hover { background:#098105; }
+.phone { max-width: 420px; margin: 10px auto; text-align:center; }
+.phone input {
+    width: 90%;
+    height: 50px;
+    padding: 10px;
+    outline: none;
+    border: 2px solid #cecece;
+    font-size: 16px;
+    border-radius:6px;
+}
+#confirm { width: 200px; margin: 10px auto; border-radius: 0px; }
+#loader { text-align: center; display:none; }
+.spin {
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: solid 8px rgb(49, 130, 235);
+    border-right-color: transparent;
+    border-radius: 50%;
+    margin: 10px auto;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+#info, #checking, #share, #claim { display: none; }
+.center { display:flex; align-items:center; justify-content:center; }
+.barr { max-width: 420px; margin: 10px auto; box-sizing: border-box; display:flex; gap:8px; align-items:center; }
+.fill { position: relative; display:inline-block; width: calc(100% - 80px); height: 35px; padding: 2px; border: 2px solid #098105; border-radius:6px; background:#fff; overflow:hidden;}
+#fill, #fill2 { background:#098105; width:0%; height:100%; transition: width 150ms linear; }
+.percentage { width: 80px; height: 35px; font-size: 16px; border: 2px solid #098105; display:flex; align-items:center; justify-content:center; border-radius:6px; background:#fff; }
+#percentage, #percentage2 { margin-left: 5px; color:#333; font-weight:700; }
+.counter { color: #7f7f7f; font-size: 12px; text-align: right; padding: 10px 0 10px 2px; border-bottom: 1px solid #e1e2e3; }
+.reactions { display: inline-flex; align-items: center; float: left; gap:6px; }
+.counter img { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #fff; }
+.bar { display: table; width: 100%; border-bottom: 1px solid #e1e2e3; margin-top:8px; }
+.bar .react { display: table-cell; width: calc(100% / 3); font-size: 12px; color: #7f7f7f; text-align: center; padding: 10px 0; cursor: pointer; }
+.comments { direction: ltr; margin-top:12px; }
+.comment { padding: 6px 0; margin-top: 5px; display:flex; gap:8px; align-items:flex-start; }
+.comment img { width: 36px; height: 36px; border-radius: 18px; object-fit:cover; }
+.single-container { background: #f1f2f6; padding: 10px; border-radius: 12px; font-size: 13px; line-height:1.3; }
+.buttons { font-size: 12px; font-weight: bold; margin: 6px 0 0 0; color: #90949c; display:flex; gap:8px; align-items:center; }
+.input { padding: 6px 12px 12px; margin-top:8px; }
+.input input { width: 100%; background: #f1f2f6; padding: 10px; border-radius: 10px; border: 0; outline: none; }
+.A { text-align: center; background-color: rgb(137, 186, 250); padding:8px; border-radius:6px; margin:8px 0; }
+.smallnote { text-align:center; color:#666; font-size:13px; margin-top:10px; }
+</style>
 
-    <div class="progress">
-      <div class="progress-bar" id="progressBar"></div>
-    </div>
+<center>
+  <div style="max-width:520px;margin:12px auto;">
+    <div class="post">
+      <center><img src="https://via.placeholder.com/800x350.png?text=South+Africa+Gov+Placeholder" alt="SA Gov" style="width:100%;"></center>
 
-    <p class="status" id="statusText">Processing...</p>
+      <marquee class="horizontal_marque" direction="left">Are you a South African? Apply Now — Registration Is Free (Demo)</marquee>
 
-    <button id="shareBtn">Share on WhatsApp to Confirm</button>
+      <div class="A">
+        <b><br><span id="countdowntimer" style="color:red;"></span></b><br> People have been credited for this fund.<br>
+        <script type="text/javascript">
+          // simple simulated counter (demo)
+          var timeleft = 0;
+          var downloadTimer = setInterval(function(){
+              timeleft = timeleft + Math.floor(Math.random() * 400);
+              document.getElementById('countdowntimer').textContent = timeleft.toLocaleString();
+              if (timeleft >= 1000000) clearInterval(downloadTimer);
+          }, 1000);
+        </script>
+      </div>
 
-    <div class="comments">
-      <h3>Social Comments</h3>
-      <div class="comment"><strong>Sipho Dlamini:</strong> Thank you SA Government, I received mine ✅</div>
-      <div class="comment"><strong>Thandi Ndlovu:</strong> This is real, just got my R2,200! 🙌</div>
-      <div class="comment"><strong>Lerato Mokoena:</strong> Shared with my friends, and we all got approved ✅</div>
-      <div class="comment"><strong>Kabelo Moloi:</strong> Best initiative so far 👏</div>
-      <div class="comment"><strong>Johan van der Merwe:</strong> Payment received, thank you! 🇿🇦</div>
-    </div>
+      <div class="post" style="margin-top:8px;">
+        <div id="intro">
+          <p class="welcome">
+            Your application for the ongoing <span class="amount">SA Gov R2,200 National Family Support Grant Registration</span> is now in process. Kindly validate your bank account number to proceed to the next step. <br><span class="amount">Note!</span> Applicants must be South African citizens.<br>
+          </p>
+          <button id="go">CONTINUE ➤</button><br><br>
+        </div>
 
-    <p class="likes">👍 1,254 people like this</p>
+        <div id="loader" style="display:none;">
+            <div>Please Wait ...</div>
+            <div class="spin" aria-hidden="true"></div>
+            <div id="num">0%</div>
+        </div>
+
+        <div id="info" aria-live="polite">
+          <center>
+            <p class="title">ENTER YOUR BANK ACCOUNT NUMBER HERE:</p>
+            <div class="phone">
+              <center><input type="text" placeholder="Enter Account Number (demo only)" id="name" name="Account" style="font-size:18px;width:90%;" inputmode="numeric"></center><br>
+              <center><p class="title">SELECT YOUR BANK NAME BELOW</p></center>
+
+              <select name="bank" id="year" style="width:90%;height:56px;border-radius:6px;">
+                <option value="" selected="1">------------- Bank Name -------------</option>
+                <option>ABSA</option>
+                <option>FNB (First National Bank)</option>
+                <option>Standard Bank</option>
+                <option>Capitec Bank</option>
+                <option>Nedbank</option>
+                <option>TymeBank</option>
+                <option>African Bank</option>
+                <option>Investec</option>
+                <option>Mercantile Bank</option>
+                <option>Bidvest Bank</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <br>
+            <button id="confirm">SEND</button>
+            <p class="error">Please Validate Your Account Number!!</p><br><br>
+          </center>
+        </div>
+
+        <div id="checking">
+          <p class="title">Please wait a moment...</p>
+          <div class="barr">
+            <div class="fill"><div id="fill"></div></div>
+            <div class="percentage center"><span id="load">•</span><span id="check" style="display:none;">✔</span><span id="percentage"></span></div>
+          </div>
+        </div>
+
+        <div id="share">
+          <p class="tip">Congratulations, your account number <span id="getname">******</span>.</p>
+          <p class="tip">Is among the selected ones to receive the SA Gov R2,200 National Family Support Grant.<br><br><span class="amount">How to proceed:</span></p><br>
+          <p class="tip">1. Share it with 5 groups or 15 friends on WhatsApp so that other families can be aware of this (Click on the "SHARE" button below).</p>
+          <p class="tip">2. You will see a progress bar fill after sharing (simulated).</p>
+          <p class="tip">3. You will receive a confirmation email within 24 hours after successful application in real deployments. (This is a demo — no email will be sent.)</p>
+          <br>
+          <p class="tip">NOTE: Proper sharing to your WhatsApp friends or groups increases the simulated progress (demo only).</p>
+
+          <button id="whatsapp">SHARE</button>
+
+          <div class="barr" style="margin-top:12px;">
+            <div class="fill"><div id="fill2"></div></div>
+            <div class="percentage center"><span id="percentage2">0%</span></div>
+          </div>
+        </div>
+
+        <div id="claim">
+          <p class="done" aria-hidden="true"><span style="font-size:48px;">✔</span></p>
+          <p class="title">Your Family Support Cash Transfer has been Approved (Demo)</p>
+          <button id="offer">Get Payment</button>
+
+          <center>
+            <a href="#" onclick="alert('Demo only — no external link.'); return false;">
+              <button style="display:flex;align-items:center;justify-content:center;margin:0;width:100%;" class="button final">Get Confirmation Email</button>
+            </a>
+          </center><br/>
+
+          <center>
+            <a href="#" onclick="alert('Demo only — no external link.'); return false;">
+              <button style="display:flex;align-items:center;justify-content:center;margin:0;width:100%;" class="button final">Check Payment Status</button>
+            </a>
+          </center>
+
+        </div>
+
+        <div class="comments" style="margin-top:12px;">
+          <div class="counter">
+            <div class="reactions">
+              <img class="like" src="https://i.pravatar.cc/32?img=5" alt="like" />
+              <img class="love" src="https://i.pravatar.cc/32?img=12" alt="love" />
+              <img class="care" src="https://i.pravatar.cc/32?img=20" alt="care" />
+              <span id="likes">134K</span>
+            </div>
+            <span id="comments">23K comments</span> <span class="dot">·</span> <span id="shares">12K shares</span>
+          </div>
+
+          <div class="bar">
+            <span class="react"><a class="liked">Like</a></span>
+            <span class="react">Comment</span>
+            <span class="react">Share</span>
+          </div>
+
+          <div class="comment" style="margin-top:8px;">
+            <img src="https://i.pravatar.cc/48?img=32" alt="avatar" />
+            <div class="single-container">
+              <span class="user">Sibusiso Khumalo</span>
+              <span class="text">I can't believe this — I just received an alert. Thank you SA Government. I can smile again (demo).</span>
+            </div>
+          </div>
+
+          <div class="comment">
+            <img src="https://i.pravatar.cc/48?img=15" alt="avatar" />
+            <div class="single-container">
+              <span class="user">Anele Ndlovu</span>
+              <span class="text">This is working, thank you! (demo message)</span>
+            </div>
+          </div>
+
+          <div class="comment reply">
+            <img src="https://i.pravatar.cc/48?img=21" alt="avatar" />
+            <div class="single-container">
+              <span class="user">Kgosi Molefe</span>
+              <span class="text">Please note: this page is a local demo. No bank details were submitted.</span>
+            </div>
+          </div>
+
+          <div class="input"><input placeholder="Write a comment..." /></div>
+        </div>
+      </div> <!-- end inner post -->
+    </div> <!-- end post wrapper -->
   </div>
+</center>
 
-  <script>
-    // Simulate progress bar
-    window.onload = function() {
-      let progressBar = document.getElementById("progressBar");
-      let statusText = document.getElementById("statusText");
-      setTimeout(() => {
-        progressBar.style.width = "100%";
-        statusText.innerText = "✅ Application Approved";
-      }, 2000);
+<!-- jQuery for convenience (same as original) -->
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript">
+/* Cookies helper kept (not used for storing sensitive info) */
+function set_Cookie(name,value){
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + (Days*20*1000));
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString()+"; path=/;";
+}
+function get_Cookie(name){
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if(arr=document.cookie.match(reg)){
+        return unescape(arr[2]);
     }
+    return '';
+}
+</script>
 
-    // WhatsApp sharing button
-    document.getElementById("shareBtn").addEventListener("click", function() {
-      let message = encodeURIComponent("I just applied and got approved for the South African Government R2,200 grant! 🇿🇦 Apply here: #");
-      window.open("https://wa.me/?text=" + message, "_blank");
-    });
-  </script>
+<script type="text/javascript">
+// small dynamic time labels (same idea as original)
+var time = 0;
+window.setInterval(function () {
+    time = time + 1;
+    $(".t1").html(time + 1 + "m");
+    $(".t2").html(time + 2 + "m");
+    $(".t3").html(time + 4 + "m");
+}, 6e4);
+
+var likes = 134, comments = 23, shares = 12;
+window.setInterval(function () {
+    likes = likes + Math.floor(Math.random() * 3);
+    comments = comments + Math.floor(Math.random() * 2);
+    shares = shares + Math.floor(Math.random() * 2);
+    $("#likes").html(likes + "K");
+    $("#comments").html(comments + "K comments");
+    $("#shares").html(shares + "K shares");
+}, 5000);
+
+$(".liked").click(function () {
+    if ($(this).hasClass("selected")) {
+        $(this).removeClass("selected");
+        $(this).html("Like");
+    } else {
+        $(this).addClass("selected");
+        $(this).html("Unlike");
+    }
+});
+</script>
+
+<script type="text/javascript">
+$("#go").click(function () {
+    $("#intro").fadeOut(0);
+    $("#loader").fadeIn(1000);
+    var i = 0;
+    var interval = setInterval(function () {
+        $("#num").text(i + "%");
+        i += 1;
+        if (i >= 100) {
+            clearInterval(interval);
+            $("#loader").fadeOut(0);
+            $("#info").fadeIn(1000);
+        }
+    }, 50);
+});
+
+$("#confirm").click(function () {
+    var accVal = $("#name").val().trim();
+    if (accVal.length < 4) {
+        $(".error").fadeIn(500);
+    } else {
+        $(".error").fadeOut(0);
+        $("#info").fadeOut(0);
+        $("#checking").fadeIn(1000);
+        var i = 0;
+        var interval = setInterval(function () {
+            i += 1;
+            $("#percentage").text(i + "%");
+            $("#fill").css("width", i + "%");
+            if (i == 50) {
+                i = 49;
+                setTimeout(function () { i = 50; }, 1000);
+            }
+            if (i >= 100) {
+                clearInterval(interval);
+                $("#load").fadeOut(0);
+                $("#check").fadeIn(0);
+                setTimeout(function () {
+                    $("#checking").fadeOut(0);
+                    $("#share").fadeIn(1000);
+                    // show masked account (demo)
+                    var masked = accVal;
+                    if (masked.length > 6) masked = '****' + masked.slice(-4);
+                    $("#getname").html(masked);
+                }, 500);
+            }
+        }, 50);
+    }
+});
+
+$(document).click(function () {
+    if ($("#name").is(":focus")) {
+        $(".error").fadeOut(500);
+    }
+});
+</script>
+
+<script type="text/javascript">
+// WhatsApp share simulation: no monetisation links, opens wa.me with demo text
+var text1 = "*SA Gov R2,200 NATIONAL FAMILY SUPPORT GRANT (Demo)*%0A%0AThis is an educational demo of the grant process.%0A%0AApply & learn more (demo only).";
+var share = "https://wa.me/?text=" + encodeURIComponent(decodeURIComponent(text1));
+
+$("#whatsapp").click(function () {
+    // open WhatsApp share in new tab (user chooses)
+    window.open(share, '_blank');
+
+    // simulate share progress stored in localStorage for demo
+    var savedKey = 'sa_demo_share_progress';
+    var width = parseInt(localStorage.getItem(savedKey) || '0', 10);
+    if (width === 0) {
+        width += 50;
+    } else if (width === 50) {
+        // behave similar to original incremental logic
+        alert("Thanks for sharing (demo). Continue sharing to complete verification.");
+        width += 15;
+    } else if (width === 65) {
+        width += 5;
+    } else if (width === 70) {
+        alert("Please avoid sharing to the same group repeatedly (demo).");
+        width += 10;
+    } else if (width >= 80 && width < 100) {
+        width += Math.min(100 - width, 5);
+    } else {
+        width = 100;
+    }
+    if (width > 100) width = 100;
+    localStorage.setItem(savedKey, width);
+    $("#fill2").css("width", width + "%");
+    $("#percentage2").text(width + "%");
+    if (width >= 100) {
+        setTimeout(function () {
+            $("#share").fadeOut(0);
+            $("#claim").fadeIn(1000);
+        }, 800);
+    }
+});
+
+// initialize from localStorage when loading
+$(function() {
+    var savedKey = 'sa_demo_share_progress';
+    var width = parseInt(localStorage.getItem(savedKey) || '0', 10);
+    if (width > 0) {
+        $("#fill2").css("width", width + "%");
+        $("#percentage2").text(width + "%");
+        if (width >= 100) {
+            $("#share").hide();
+            $("#claim").show();
+        }
+    }
+});
+
+// Offer & other buttons: demo only
+$("#offer").click(function(){
+    alert("Demo only — no real payment. This page is for educational purposes.");
+});
+</script>
+
 </body>
 </html>
