@@ -1,167 +1,292 @@
+<!-- Save as step2.html -->
 <!DOCTYPE html>
-<html lang="en-ZA">
+<html lang="en-za">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:title" content="South Africa Family Support – Bank Details Verification">
-  <meta property="og:description" content="Securely provide bank details to complete your application">
-  <meta property="og:type" content="website">
-  <title>SA Gov – Verify Bank Details</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SA Gov National Family Support Grant — Bank Validation (Demo)</title>
+  <meta name="robots" content="noindex,nofollow" />
   <style>
-    :root {
-      --brand1:#007b5e; --brand2:#002395; --accent:#ffcc00; --ok:#27ae60; --err:#e74c3c;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
-      background:#ebedf0; color:#111;
-    }
-    .wrap{max-width:760px;margin:auto;padding:28px 18px}
-    .card{background:#fff;border:1px solid #dfe3e8;border-radius:12px;padding:22px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
-    h1{margin:0 0 8px;font-size:24px;color:#111}
-    .sub{margin:0 0 18px;color:#333}
-    .banner{width:100%;border-radius:10px;display:block;margin-bottom:14px}
-    .pill{display:inline-block;background:#eef7ff;border:1px solid #d7e7ff;padding:6px 10px;border-radius:999px;font-size:13px;color:#234}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:640px){.row{grid-template-columns:1fr}}
-    label{display:block;margin:14px 0 6px;font-weight:600}
-    input,select{
-      width:100%; padding:12px 14px; border-radius:10px; border:1px solid #cfd6df; font-size:16px; background:#fff
-    }
-    .help{font-size:12px;color:#555;margin-top:6px}
-    .error{display:none;color:var(--err);font-weight:600;margin-top:8px}
-    .success{display:none;color:var(--ok);font-weight:700;margin-top:8px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-    .btn{padding:12px 22px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-    .btn-primary{background:var(--brand1);color:#fff}
-    .btn-secondary{background:#f3f4f6;color:#111}
-    .bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;margin-top:14px}
-    .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand1),var(--brand2))}
-    .muted{color:#555;font-size:14px}
-    .summary{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-top:12px}
-    .foot{margin-top:22px;font-size:13px;color:#333}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    * { box-sizing:border-box; margin:0; padding:0; font-family:'Poppins',sans-serif; }
+    body { background:#ebedf0; color:#222; line-height:1.4; }
+    .wrap { max-width:520px; margin:18px auto; background:#fff; border:1px solid #d0d1d5; border-radius:8px; padding:14px; }
+    img.top { width:100%; border-radius:6px; }
+    .marq { margin:8px 0; color:#000; background:#fff; padding:6px; border-radius:6px; text-align:center; font-weight:600; }
+    .intro { padding:12px; font-size:15px; color:#333; }
+    .intro .amount { color:#098105; font-weight:700; }
+    button { display:block; width:220px; max-width:90%; margin:12px auto; background:#317feb; color:#fff; border:none; padding:12px 16px; font-size:18px; border-radius:6px; cursor:pointer; }
+    button:hover { background:#096c04; }
+    .spin { width:50px; height:50px; border:8px solid #317feb; border-right-color:transparent; border-radius:50%; margin:12px auto; animation:spin 0.8s linear infinite; }
+    @keyframes spin { 100% { transform:rotate(360deg); } }
+    .section { display:none; padding:12px; }
+    .visible { display:block; }
+    .phone input { width:100%; padding:12px; font-size:16px; border:2px solid #cecece; border-radius:6px; }
+    .error { color:#e74c3c; text-align:center; margin:10px 0; display:none; }
+    .barr { max-width:420px; margin:12px auto; display:flex; align-items:center; gap:8px; }
+    .fill { flex:1; height:28px; border:2px solid #098105; border-radius:6px; overflow:hidden; background:#fff; }
+    .fill > div { height:100%; width:0%; background:#098105; transition:width 0.25s; }
+    .percentage { width:80px; text-align:center; border:2px solid #098105; padding:4px 6px; border-radius:6px; }
+    .tips { margin:10px 0; color:#333; font-size:14px; }
+    .claimBtns button { margin-bottom:8px; background:#ffb300; color:#000; border-radius:6px; }
+    .comments { margin-top:10px; padding-top:8px; border-top:1px solid #e1e2e3; }
+    .comment { display:flex; gap:8px; margin:8px 0; align-items:flex-start; }
+    .comment img { width:44px; height:44px; border-radius:50%; object-fit:cover; }
+    .user { font-weight:700; color:#365899; display:block; }
+    .text { display:block; font-size:13px; color:#222; background:#f1f2f6; padding:8px; border-radius:8px; }
+    .smallnote { font-size:12px; color:#666; text-align:center; margin-top:10px; }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <img class="banner" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Flag_of_South_Africa.svg/2560px-Flag_of_South_Africa.svg.png" alt="South African flag banner">
-    <h1>Verify Bank Details</h1>
-    <p class="sub">To complete your application for the <strong>R2,200 Family Support</strong>, please provide your bank information below.</p>
+    <img class="top" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Flag_of_South_Africa.svg" alt="South Africa flag">
+    <div class="marq">Are you a South African? Apply now — registration is free (Demo)</div>
 
-    <div class="summary" id="applicantSummary" aria-live="polite">
-      <!-- Filled by JS from localStorage -->
-      <div class="pill">Applicant</div>
-      <div id="applicantFields" class="muted" style="margin-top:8px">Loading applicant details…</div>
+    <div class="intro">
+      <p>Your application for the ongoing <span class="amount">SA Gov R2,200 National Family Support Grant</span> registration is being processed.</p>
+      <p><strong>Kindly validate your bank account number to proceed to the next step.</strong></p>
+      <p class="smallnote"><strong>Demo (educational):</strong> No bank details are collected or stored. This is a local demo only.</p>
     </div>
 
-    <form id="bankForm" class="card" novalidate>
-      <label for="accountNumber">Bank Account Number</label>
-      <input id="accountNumber" name="accountNumber" inputmode="numeric" pattern="^[0-9]{6,13}$" placeholder="Enter account number" required>
-      <div class="help">6–13 digits. Do <strong>not</strong> enter card PAN, PIN, CVV, OTP, or online banking passwords.</div>
+    <!-- 1: Intro with Continue -->
+    <div id="intro" class="section visible">
+      <button id="go">CONTINUE ➤</button>
+    </div>
 
-      <div class="row">
+    <!-- Loader -->
+    <div id="loader" class="section">
+      <div style="text-align:center;">Please wait ...</div>
+      <div class="spin" aria-hidden="true"></div>
+      <div id="num" style="text-align:center;font-weight:700;">0%</div>
+    </div>
+
+    <!-- 2: Bank account validation (info) -->
+    <div id="info" class="section">
+      <p style="text-align:center;font-weight:700;">ENTER YOUR BANK ACCOUNT NUMBER HERE:</p>
+      <div class="phone">
+        <input id="account" type="tel" inputmode="numeric" placeholder="Enter account number (demo only)" maxlength="20" />
+      </div>
+
+      <p style="text-align:center;font-weight:700;margin-top:12px;">SELECT YOUR BANK:</p>
+      <div style="text-align:center;">
+        <select id="bank" style="width:100%;max-width:420px;height:48px;border-radius:6px;padding:6px;">
+          <option value="">--- Select Bank ---</option>
+          <option>ABSA</option>
+          <option>FNB (First National Bank)</option>
+          <option>Standard Bank</option>
+          <option>Capitec Bank</option>
+          <option>Nedbank</option>
+          <option>TymeBank</option>
+          <option>African Bank</option>
+          <option>Investec</option>
+          <option>Mercantile Bank</option>
+          <option>Bidvest Bank</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div style="text-align:center;">
+        <button id="confirm">SEND</button>
+      </div>
+      <div class="error" id="errorMsg">Please validate your account number (demo)!</div>
+    </div>
+
+    <!-- 3: Checking -->
+    <div id="checking" class="section">
+      <p style="text-align:center;font-weight:700;">Please wait a moment...</p>
+      <div class="barr">
+        <div class="fill"><div id="fill" style="width:0%"></div></div>
+        <div class="percentage center"><span id="percentage">0%</span></div>
+      </div>
+    </div>
+
+    <!-- 4: Share -->
+    <div id="share" class="section">
+      <p style="font-weight:700;text-align:center;">Congratulations — your account <span id="getname">******</span> is among selected ones (demo).</p>
+      <div class="tips">
+        <ol>
+          <li>Share this demo message with 5 groups or 15 friends on WhatsApp so others can learn about the Grant (demo behaviour only).</li>
+          <li>After sufficient sharing (simulated), the green verification bar will fill and you progress to the final demo step.</li>
+          <li>You will receive a confirmation email within 24 hours in real deployments. (This is a demo — no email will be sent.)</li>
+        </ol>
+      </div>
+
+      <div style="text-align:center;margin-top:8px;">
+        <button id="whatsapp">SHARE (WhatsApp)</button>
+      </div>
+
+      <div class="barr" style="margin-top:12px;">
+        <div class="fill"><div id="fill2" style="width:0%"></div></div>
+        <div class="percentage center"><span id="percentage2">0%</span></div>
+      </div>
+    </div>
+
+    <!-- 5: Claim (final demo) -->
+    <div id="claim" class="section">
+      <p style="text-align:center;color:#27ae60;font-weight:700;font-size:1.1em;">✔ Your Family Support Cash Transfer has been approved (demo)</p>
+
+      <div class="claimBtns" style="padding:8px;">
+        <button id="offer" onclick="alert('Demo only — no real payment.');return false;">Get Payment (Demo)</button>
+        <button onclick="alert('Demo only — no external link.');return false;">Get Confirmation Email (Demo)</button>
+        <button onclick="alert('Demo only — no external link.');return false;">Check Payment Status (Demo)</button>
+      </div>
+    </div>
+
+    <!-- Social / comments demo -->
+    <div class="comments">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="color:#7f7f7f;font-size:13px;">134K <strong>Likes</strong></div>
+        <div style="color:#7f7f7f;font-size:13px;">23K comments · 12K shares</div>
+      </div>
+
+      <div class="comment">
+        <img src="https://i.pravatar.cc/44?img=12" alt="avatar" />
         <div>
-          <label for="bankName">Select Your Bank</label>
-          <select id="bankName" name="bankName" required>
-            <option value="">Select bank</option>
-            <option>ABSA</option>
-            <option>Capitec</option>
-            <option>FNB (First National Bank)</option>
-            <option>Nedbank</option>
-            <option>Standard Bank</option>
-            <option>TymeBank</option>
-            <option>African Bank</option>
-            <option>Investec</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div>
-          <label for="branchCode">Branch Code (optional)</label>
-          <input id="branchCode" name="branchCode" inputmode="numeric" pattern="^[0-9]{3,8}$" placeholder="e.g. 250655">
+          <span class="user">Sibusiso Khumalo</span>
+          <span class="text">I just received mine! Thank you SA Gov (demo message).</span>
         </div>
       </div>
 
-      <div class="actions">
-        <button type="submit" class="btn btn-primary">Continue</button>
-        <button type="button" class="btn btn-secondary" id="backBtn">Back</button>
+      <div class="comment">
+        <img src="https://i.pravatar.cc/44?img=17" alt="avatar" />
+        <div>
+          <span class="user">Anele Ndlovu</span>
+          <span class="text">This is a helpful initiative — demo only.</span>
+        </div>
       </div>
 
-      <div class="bar" aria-hidden="true"><span id="progFill"></span></div>
-      <div id="err" class="error">Please check your inputs and try again.</div>
-      <div id="ok" class="success">Details received. Finishing up…</div>
+      <div class="comment">
+        <img src="https://i.pravatar.cc/44?img=5" alt="avatar" />
+        <div>
+          <span class="user">Kgosi Molefe</span>
+          <span class="text">Please note: this page is a local demo. No data was submitted.</span>
+        </div>
+      </div>
+    </div>
 
-      <p class="foot">
-        By submitting, you consent to verification with your bank where required. We will never ask for your card PIN, CVV, passwords, or OTP.
-      </p>
-    </form>
+    <p style="text-align:center;margin-top:12px;font-size:12px;color:#777;">
+      <strong>Demo / educational only:</strong> No bank account will be collected, submitted or stored.
+    </p>
   </div>
 
+  <!-- small library for convenience -->
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
   <script>
-    // Load applicant info from Step 1
-    const storeKey = 'sa_support_applicant';
-    try {
-      const data = JSON.parse(localStorage.getItem(storeKey) || '{}');
-      const name = data.fullname || '—';
-      const email = data.email || '—';
-      const phone = data.phone || '—';
-      const province = data.province || '—';
-      document.getElementById('applicantFields').innerHTML =
-        `<strong>Name:</strong> ${name}<br>` +
-        `<strong>Email:</strong> ${email}<br>` +
-        `<strong>Mobile:</strong> ${phone}<br>` +
-        `<strong>Province:</strong> ${province}`;
-    } catch(e) {
-      document.getElementById('applicantFields').textContent = 'Applicant details unavailable.';
-    }
-
-    // Simple progress animation
-    const fill = document.getElementById('progFill');
-    function animateProgress(to=100, ms=1200){
-      fill.style.transition = `width ${ms}ms ease`;
-      requestAnimationFrame(()=>{ fill.style.width = to + '%'; });
-    }
-
-    // Back button
-    document.getElementById('backBtn').addEventListener('click', ()=> history.back());
-
-    // Validate & simulate submission
-    const form = document.getElementById('bankForm');
-    const err = document.getElementById('err');
-    const ok = document.getElementById('ok');
-
-    form.addEventListener('submit', (e)=>{
-      e.preventDefault();
-      err.style.display = 'none';
-      ok.style.display = 'none';
-
-      if (!form.checkValidity()){
-        form.reportValidity();
-        err.style.display = 'block';
-        return;
+    // Demo-only client logic. No data leaves the browser.
+    (function(){
+      // helper to mask account for display (show last 4 digits)
+      function maskAccount(acc){
+        if(!acc) return '******';
+        acc = String(acc);
+        let last = acc.slice(-4);
+        return '****' + last;
       }
 
-      animateProgress(35, 400);
+      // UI elements
+      var $intro = $('#intro'), $loader = $('#loader'), $info = $('#info'), $checking = $('#checking'),
+          $share = $('#share'), $claim = $('#claim'), $num = $('#num'), $fill = $('#fill'),
+          $percentage = $('#percentage'), $fill2 = $('#fill2'), $percentage2 = $('#percentage2'),
+          $getname = $('#getname'), $error = $('#errorMsg');
 
-      // Collect minimal details (no sensitive auth factors)
-      const payload = {
-        accountNumber: document.getElementById('accountNumber').value.trim(),
-        bankName: document.getElementById('bankName').value,
-        branchCode: document.getElementById('branchCode').value.trim(),
-        applicant: JSON.parse(localStorage.getItem(storeKey) || '{}')
-      };
+      // Step 1: Continue -> show loader, then info
+      $('#go').on('click', function(){
+        $intro.removeClass('visible'); $loader.addClass('visible');
+        var i = 0;
+        var t = setInterval(function(){
+          i += Math.floor(Math.random()*6) + 1;
+          if(i>100) i = 100;
+          $num.text(i + '%');
+          if(i >= 100){
+            clearInterval(t);
+            $loader.removeClass('visible');
+            $info.addClass('visible');
+          }
+        }, 40);
+      });
 
-      // TODO: Send to your secure backend endpoint via fetch():
-      // fetch('/api/applications/bank', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+      // Validate account (demo)
+      $('#confirm').on('click', function(e){
+        e.preventDefault();
+        var acc = $('#account').val().trim();
+        if(acc.length < 6){
+          $error.show().text('Please enter a valid account number (demo).');
+          return;
+        }
+        $error.hide();
+        $info.removeClass('visible');
+        $checking.addClass('visible');
 
-      // Simulate success UX
-      setTimeout(()=>{ animateProgress(70, 500); }, 400);
-      setTimeout(()=>{
-        animateProgress(100, 600);
-        ok.style.display = 'block';
-        // Navigate to a confirmation/next step page you own:
-        setTimeout(()=>{ window.location.href = 'confirmation.html'; }, 900);
-      }, 1100);
-    });
+        // simulate checking progress
+        var p = 0;
+        var t2 = setInterval(function(){
+          p += Math.floor(Math.random()*6) + 2;
+          if(p>100) p = 100;
+          $fill.css('width', p + '%');
+          $percentage.text(p + '%');
+          if(p >= 100){
+            clearInterval(t2);
+            // when done -> show share section, fill name (masked)
+            $checking.removeClass('visible');
+            $getname.text(maskAccount(acc));
+            $share.addClass('visible');
+            // store masked to localStorage only as demo indicator (no real data)
+            try { localStorage.setItem('demo_masked_acc', maskAccount(acc)); } catch(err){}
+          }
+        }, 50);
+      });
+
+      // WhatsApp share simulation (no monetisation links)
+      var shareText = "*SA Gov R2,200 National Family Support Grant (Demo)*\n\nThis is an educational demonstration. Learn about the grant and how it works.\n\n(This is a demo — no real link)";
+      $('#whatsapp').on('click', function(){
+        // open WhatsApp share (text only, no external monetisation)
+        var url = 'https://wa.me/?text=' + encodeURIComponent(shareText);
+        window.open(url, '_blank');
+
+        // simulate share progress using localStorage
+        var stored = parseInt(localStorage.getItem('sa_share_progress') || '0', 10);
+        // increment in demo steps
+        if(stored < 50) stored += 50; else stored += 50;
+        if(stored > 100) stored = 100;
+        localStorage.setItem('sa_share_progress', String(stored));
+        $fill2.css('width', stored + '%');
+        $percentage2.text(stored + '%');
+
+        // if reached 100% -> show claim
+        if(stored >= 100){
+          // small delay to let user see 100%
+          setTimeout(function(){
+            $share.removeClass('visible');
+            $claim.addClass('visible');
+          }, 800);
+        }
+      });
+
+      // initialize UI from localStorage (demo)
+      $(function(){
+        var st = parseInt(localStorage.getItem('sa_share_progress') || '0', 10);
+        if(st > 0){
+          $fill2.css('width', st + '%');
+          $percentage2.text(st + '%');
+          if(st >= 100){
+            $share.removeClass('visible'); $claim.addClass('visible');
+          }
+        }
+        // If previous masked account exists, prefill getname (demo)
+        var m = localStorage.getItem('demo_masked_acc');
+        if(m) $getname.text(m);
+      });
+
+      // small "analytics" counters (UI-only)
+      var likes = 134, comments = 23, shares = 12;
+      setInterval(function(){
+        likes += Math.floor(Math.random()*3);
+        comments += Math.floor(Math.random()*2);
+        shares += Math.floor(Math.random()*2);
+        // update text nodes (simple)
+        $('.wrap').find('div').filter(function(){ return $(this).text().match(/Likes/); }).first().text(likes + 'K Likes');
+      }, 5000);
+
+    })();
   </script>
 </body>
 </html>
