@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA Government Grant Approval</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 500px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }
+    h2 { color: #333; }
+    .progress { width: 100%; background: #eee; border-radius: 8px; margin: 15px 0; }
+    .progress-bar { width: 0%; height: 20px; background: #28a745; border-radius: 8px; transition: width 2s; }
+    button { margin-top: 10px; padding: 10px 15px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .status { margin-top: 15px; font-weight: bold; color: green; }
+    .comments { text-align: left; margin-top: 20px; }
+    .comment { border-bottom: 1px solid #eee; padding: 8px 0; }
+    .likes { color: #007bff; margin-top: 10px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Application Approval – Step 2</h2>
+    <p>Please wait while we process your application...</p>
+
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <p class="status" id="statusText">Processing...</p>
+
+    <button id="shareBtn">Share on WhatsApp to Confirm</button>
+
+    <div class="comments">
+      <h3>Social Comments</h3>
+      <div class="comment"><strong>Sipho Dlamini:</strong> Thank you SA Government, I received mine ✅</div>
+      <div class="comment"><strong>Thandi Ndlovu:</strong> This is real, just got my R2,200! 🙌</div>
+      <div class="comment"><strong>Lerato Mokoena:</strong> Shared with my friends, and we all got approved ✅</div>
+      <div class="comment"><strong>Kabelo Moloi:</strong> Best initiative so far 👏</div>
+      <div class="comment"><strong>Johan van der Merwe:</strong> Payment received, thank you! 🇿🇦</div>
+    </div>
+
+    <p class="likes">👍 1,254 people like this</p>
+  </div>
+
+  <script>
+    // Simulate progress bar
+    window.onload = function() {
+      let progressBar = document.getElementById("progressBar");
+      let statusText = document.getElementById("statusText");
+      setTimeout(() => {
+        progressBar.style.width = "100%";
+        statusText.innerText = "✅ Application Approved";
+      }, 2000);
+    }
+
+    // WhatsApp sharing button
+    document.getElementById("shareBtn").addEventListener("click", function() {
+      let message = encodeURIComponent("I just applied and got approved for the South African Government R2,200 grant! 🇿🇦 Apply here: #");
+      window.open("https://wa.me/?text=" + message, "_blank");
+    });
+  </script>
+</body>
+</html>
