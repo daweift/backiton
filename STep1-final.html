@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SA Government Grant Application</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    .container { max-width: 500px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h2, h3 { text-align: center; color: #333; }
+    .president-img { display: block; margin: 0 auto 15px; width: 120px; height: 120px; border-radius: 50%; object-fit: cover; }
+    form { display: flex; flex-direction: column; }
+    label { margin-top: 10px; font-weight: bold; }
+    input, select, button { margin-top: 5px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+    button { background: #007bff; color: white; border: none; cursor: pointer; font-size: 16px; }
+    button:hover { background: #0056b3; }
+    .note { font-size: 14px; margin-top: 10px; text-align: center; color: #666; }
+    .recent { margin-top: 20px; }
+    .applicant { padding: 8px; border-bottom: 1px solid #eee; }
+    .applicant strong { color: #007bff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="placeholder-president.jpg" alt="President" class="president-img">
+    <h2>South African Government Grant</h2>
+    <h3>Application Form – Step 1</h3>
+    <p style="text-align:center;"><strong>R2,200 Grant</strong> support for all South African citizens</p>
+
+    <form action="step2.html" method="GET">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" name="fullname" required>
+
+      <label for="province">Province</label>
+      <select id="province" name="province" required>
+        <option value="">-- Select Province --</option>
+        <option>Gauteng</option>
+        <option>KwaZulu-Natal</option>
+        <option>Western Cape</option>
+        <option>Eastern Cape</option>
+        <option>Limpopo</option>
+        <option>Mpumalanga</option>
+        <option>North West</option>
+        <option>Free State</option>
+        <option>Northern Cape</option>
+      </select>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <button type="submit">Apply Now</button>
+    </form>
+
+    <p class="note">✅ Only for South African Citizens</p>
+
+    <div class="recent">
+      <h3>Recent Successful Applicants</h3>
+      <div class="applicant"><strong>Sipho Dlamini</strong> from Gauteng ✔</div>
+      <div class="applicant"><strong>Thandi Ndlovu</strong> from KwaZulu-Natal ✔</div>
+      <div class="applicant"><strong>Lerato Mokoena</strong> from Free State ✔</div>
+      <div class="applicant"><strong>Kabelo Moloi</strong> from Limpopo ✔</div>
+      <div class="applicant"><strong>Johan van der Merwe</strong> from Western Cape ✔</div>
+    </div>
+  </div>
+</body>
+</html>
